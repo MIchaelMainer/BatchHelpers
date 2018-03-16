@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 /**
 Option 2: Batch directly on the request object
 
@@ -21,20 +25,34 @@ try
     BatchResponseContainer batchResult = await batch.ExecuteAsync();
     // We'll want to consider providing a custom call stack to make the Batch calls. 
 
+    // Access the entire response envelope.
     HttpStatusCode overallStatus = batchResult.HttpStatusCode;
     HttpHeaders headers = batchResult.HttpHeaders;
     string rawResponseBody = batchResult.RawResponseBody;
 
-    //Sequential access to each batch result
-    foreach(var requestResult in batchResult.Responses)
+    User user;
+
+    // Sequential access to each batch result part.
+    foreach(BatchResponsePart part in batchResult.Responses)
     {
-    if(requestResult.IsSuccessfull) //do stuff
-    else // do some other stuff
+        HttpStatusCode partStatus = part.HttpStatusCode;
+        HttpHeaders partHeaders = part.HttpHeaders;
+        string partId = part.Id;
+        string partRawResponseBody = part.RawResponseBody;
+
+        // This way, dev will have to know what type to deserialize the response body into.
+        user = serializer.DeserializeObject<EventCollection>(part.RawResponseBody);    
     }
-    // or a request reference 
-    request1Reference.IsSuccessful, Value, Error...
+
+    // Alternate response idea.
+    // Can we populate the BatchPartReference objects with the responses from batch.ExecuteAsync()?
+    // If so, then we should be able to get the deserialized objects.
+    if (request1Reference.Response != null) 
+    {
+        EventCollection events = request1Reference.Response.GetObject<EventCollection>();
+    }
 }
-catch (ServiceException ex)
+catch (ServiceException ex) // This will only be the case if the entire call fails.
 {} 
 
 /* Open questions for Option 2.

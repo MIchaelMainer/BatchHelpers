@@ -1,3 +1,7 @@
+// ------------------------------------------------------------------------------
+//  Copyright (c) Microsoft Corporation.  All Rights Reserved.  Licensed under the MIT License.  See License in the project root for license information.
+// ------------------------------------------------------------------------------
+
 /**
 Option 1: Batch from a batch object
 
@@ -55,7 +59,7 @@ foreach(BatchResponsePart part in response.BatchResponseParts)
     if (part.Id = "1" && !part.IsSuccessStatusCode)
     {
         // Get a strongly typed object.
-        ex1 = serializer.DeserializeObject<ServiceException>(part.Body;)        
+        ex1 = serializer.DeserializeObject<ServiceException>(part.Body);        
         // Be ready to handle serialization errors. How do we handle that so that the other batch parts can continue?
     }
 
