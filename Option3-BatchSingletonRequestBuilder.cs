@@ -3,7 +3,7 @@
 // ------------------------------------------------------------------------------
 
 /**
-Option 3: Batch request builders
+Option 3: Batch singleton request builder
 
 Use the existing request builders to build up the request URL, query options, and request headers.
 
@@ -31,7 +31,8 @@ Serializer serializer = new Serializer();
 foreach (BatchResponsePart part in parts)
 {
       // Dev would need to track the part id and map which call was made to 
-      // determine the expected body entity. 
+      // determine the expected body entity. They'd maybe use a dictionary to
+      // track this information.
       if (part.Id == "1")
       {
             HttpHeaders partHeaders = part.Headers;

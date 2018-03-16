@@ -44,7 +44,7 @@ try
         user = serializer.DeserializeObject<EventCollection>(part.RawResponseBody);    
     }
 
-    // Alternate response idea.
+    // Alternate response idea. After await batch.ExecuteAsync().
     // Can we populate the BatchPartReference objects with the responses from batch.ExecuteAsync()?
     // If so, then we should be able to get the deserialized objects.
     if (request1Reference.Response != null) 
