@@ -28,7 +28,7 @@ BatchPart batchPart2 = new BatchPart("post", groupToAdd, groupBody, "2", ["1"]);
 // Query parameters and headers are set in Request(). That gives us a complete
 // URL and headers collection.
 // The contents of BatchPart body are set {HttpVerb}BatchPart method. 
-// The BatchPart id will automatically be set by default.
+// The BatchPart id will automatically be set by default if it is not provided.
 // DependsOn references can be set as part of a param[].
 BatchPart batchPart3 = graphClient.Users.Request(query).PostBatchPart(new User, two, ?id);
 
