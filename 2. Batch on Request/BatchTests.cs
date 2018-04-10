@@ -15,17 +15,11 @@ namespace Microsoft.Graph.Test.Requests.Functional
         public async System.Threading.Tasks.Task TestBatch()
         {
             var batch = new Batch();
-            BatchPart req1 = graphClient.Me.BatchRequest(batch).Get();
-            graphClient.Users["admin@M365x462896.onmicrosoft.com"].BatchRequest(batch).Get();
+            var part1 = graphClient.Me.BatchRequest(batch).Get();
+            UserBatchPart part2 = graphClient.Users["admin@M365x462896.onmicrosoft.com"].BatchRequest(batch).Get();
 
-            BatchResponseContainer response = await batch.PostAsync();
-
-            foreach (var item in response.batchResponses)
-            {
-                var user = item.Body;
-                Assert.AreEqual(200, item.Status);
-            }
-            Assert.IsNotNull(response);
+            batch = await batch.PostAsync();
+            User user = part1.Response;
         }
     }
 }
