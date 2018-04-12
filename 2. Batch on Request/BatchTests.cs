@@ -15,17 +15,18 @@ namespace Microsoft.Graph.Test.Requests.Functional
         public async System.Threading.Tasks.Task TestBatch()
         {
             var batch = new Batch();
-            BatchPart req1 = graphClient.Me.BatchRequest(batch).Get();                          // We'd know the return type  and verb at generation. The client get sets from this.
-            graphClient.Users["admin@M365x462896.onmicrosoft.com"].BatchRequest(batch).Get();
+            var part1 = graphClient.Me.BatchRequest(batch).Get();
+            UserBatchPart part2 = graphClient.Users["admin@M365x462896.onmicrosoft.com"].BatchRequest(batch).Get();
 
-            BatchResponseContainer response = await batch.PostAsync();
+            batch = await batch.PostAsync();
+            User user = part1.Response;
 
-            foreach (var item in response.batchResponses)                                       // What is item?
+            // Scenarios where all batch parts of the same return type.
+            foreach (BatchPart part in batch.BatchItems)
             {
-                var user = item.Body;
-                Assert.AreEqual(200, item.Status);
+                User myUser = part.Response as User;
             }
-            Assert.IsNotNull(response);
+
         }
     }
 }
